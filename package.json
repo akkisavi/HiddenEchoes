@@ -12,6 +12,9 @@
     "@google/generative-ai": "^0.21.0",
     "@react-email/components": "^0.0.31",
     "bcryptjs": "^2.4.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.469.0",
     "mongoose": "^8.9.2",
     "next": "15.1.2",
     "next-auth": "^4.24.11",
@@ -20,6 +23,8 @@
     "react-email": "^3.0.4",
     "react-hot-toast": "^2.4.1",
     "resend": "^4.0.1",
+    "tailwind-merge": "^2.6.0",
+    "tailwindcss-animate": "^1.0.7",
     "toaster": "^0.1.2",
     "zod": "^3.24.1"
   },
