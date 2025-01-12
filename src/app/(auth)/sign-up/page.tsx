@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useDebounceValue } from "usehooks-ts";
+import { useDebounceCallback } from "usehooks-ts";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { signUpSchema } from "@/schemas/signUpSchema";
@@ -29,7 +29,7 @@ const Page = () => {
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const debouncedUsername = useDebounceValue(username, 500);
+  const debounced = useDebounceCallback(setUsername, 500);
   const { toast } = useToast();
   const router = useRouter();
 
@@ -46,12 +46,12 @@ const Page = () => {
 
   useEffect(() => {
     const checkUsernameUnique = async () => {
-      if (debouncedUsername) {
+      if (username) {
         setIsCheckingUsername(true);
         setUsernameMessage("");
         try {
           const response = await axios.get(
-            `/api/check-username?username=${debouncedUsername}`
+            `/api/check-username?username=${username}`
           );
           setUsernameMessage(response.data.message);
         } catch (error) {
@@ -65,7 +65,7 @@ const Page = () => {
       }
     };
     checkUsernameUnique();
-  }, [debouncedUsername]);
+  }, [username]);
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     setIsSubmitting(true);
@@ -91,7 +91,7 @@ const Page = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-zinc-800">
-      <div className="w-full max-w-md p-8 space-y-8 rounded-lg shadow-md bg-zinc-400">
+      <div className="w-full max-w-md p-8 space-y-8 rounded-lg shadow-md bg-gray-100">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-3xl mb-6">
             Join Hidden Echoes
@@ -112,10 +112,14 @@ const Page = () => {
                       {...field}
                       onChange={(e) => {
                         field.onChange(e);
-                        setUsername(e.target.value);
+                        debounced(e.target.value);
                       }}
                     />
                   </FormControl>
+                  {isCheckingUsername && <LoaderCircle className="animate-spin" />}
+                  <p className={`text-sm ${usernameMessage === "Username is unique" ? "text-green-500 font-semibold " : "text-red-500"}`}>
+                    test {usernameMessage}
+                  </p>
                   <FormMessage />
                 </FormItem>
               )}
