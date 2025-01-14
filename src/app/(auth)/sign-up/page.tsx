@@ -96,7 +96,7 @@ const Page = () => {
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-3xl mb-6">
             Join Hidden Echoes
           </h1>
-          <p className="mb-4">Sign up to start your anonymous journey</p>
+          <p className="mb-4">Sign up to start your Mysterious journey</p>
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -116,9 +116,13 @@ const Page = () => {
                       }}
                     />
                   </FormControl>
-                  {isCheckingUsername && <LoaderCircle className="animate-spin" />}
-                  <p className={`text-sm ${usernameMessage === "Username is unique" ? "text-green-500 font-semibold " : "text-red-500"}`}>
-                    test {usernameMessage}
+                  {isCheckingUsername && (
+                    <LoaderCircle className="animate-spin" />
+                  )}
+                  <p
+                    className={`text-sm ${usernameMessage === "Username is unique" ? "text-green-500 font-semibold " : "text-red-500"}`}
+                  >
+                    {usernameMessage}
                   </p>
                   <FormMessage />
                 </FormItem>
